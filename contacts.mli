@@ -285,13 +285,6 @@ class contacts : Ojs.t ->
     (* ---------------------------------------------------------------------- *)
 
     (* ---------------------------------------------------------------------- *)
-    (* find [fields] [success_callback] *)
-    method find             : string array            ->
-                              (contact array -> unit) ->
-                              unit
-    (* ---------------------------------------------------------------------- *)
-
-    (* ---------------------------------------------------------------------- *)
     (* This method executes asynchronously, querying the device contacts database and
      * returning an array of Contact objects. The resulting objects are passed
      * to the contactSuccess callback function specified by the contactSuccess
