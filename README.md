@@ -1,10 +1,9 @@
 # ocaml-cordova-plugin-contacts
 
+* gen_js_api (master branch) [![Build Status](https://travis-ci.org/dannywillems/ocaml-cordova-plugin-contacts.svg?branch=master)](https://travis-ci.org/dannywillems/ocaml-cordova-plugin-contacts)
+
 Binding to
 [cordova-plugin-contacts](https://github.com/apache/cordova-plugin-contacts)
-
-[Example
-application](https://github.com/dannywillems/ocaml-cordova-plugin-contacts-example).
 
 ## What does cordova-plugin-contacts do ?
 
@@ -37,13 +36,13 @@ TODO
 The plugin creates a new object called *navigator.contacts*, but the object is
 available when the *deviceready* event is handled.
 
-Instead, we provide a function *Contacts.t* of type *unit -> contacts* which creates the
+We provide a function *Cordova_contacts.t* of type *unit -> contacts* which creates the
 binding to the *navigator.contacts* object. You must call it when the deviceready
 event is handled, eg (with js_of_ocaml)
 
 ```OCaml
 let on_device_ready _ =
-  let c = Contacts.t () in
+  let c = Cordova_contacts.t () in
   (* Some code *)
 
 let _ =
