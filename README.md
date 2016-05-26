@@ -31,22 +31,3 @@ but we **recommend** to use the gen_js_api version which is the master branch.
 ## How to use ?
 
 TODO
-
-## ! BE CAREFUL !
-
-The plugin creates a new object called *navigator.contacts*, but the object is
-available when the *deviceready* event is handled.
-
-We provide a function *Cordova_contacts.t* of type *unit -> contacts* which creates the
-binding to the *navigator.contacts* object. You must call it when the deviceready
-event is handled, eg (with js_of_ocaml)
-
-```OCaml
-let on_device_ready _ =
-  let c = Cordova_contacts.t () in
-  (* Some code *)
-
-let _ =
-  Dom.addEventListener Dom_html.document (Dom.Event.make "deviceready")
-  (Dom_html.handler on_device_ready) Js._false
-```
