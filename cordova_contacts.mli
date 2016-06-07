@@ -201,7 +201,7 @@ class contact : Ojs.t ->
     (* The birthday of the contact. *)
     (* Js_date is defined in the binding of the javascript standard library. See
      * documentation *)
-    method birthday                : Js_date.date option
+    method birthday                : Js_date.t option
     (*  A note about the contact. *)
     method note                    : string option
     (* An array of the contact's photos. *)
@@ -242,7 +242,7 @@ val create_contact :
   ?addresses:contact_address array option           ->
   ?ims:contact_field_ims array option               ->
   ?organizations:contact_organization array option  ->
-  ?birthday:Js_date.date option                     ->
+  ?birthday:Js_date.t option                     ->
   ?note:string option                               ->
   ?photos:contact_field_photo array option          ->
   ?categories:contact_field_category array option   ->
