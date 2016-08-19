@@ -42,52 +42,18 @@ type error =
   | Permission_denied_error [@js 20]
   [@@js.enum]
 
-class contact_error : Ojs.t ->
-  object
-    inherit Ojs.obj
-    method code : int
-  end
+
+type contact_error = private Ojs.t
+val code : contact_error -> int
+[@@js.get]
 (* -------------------------------------------------------------------------- *)
 
 (* -------------------------------------------------------------------------- *)
-class contact_field : Ojs.t ->
-  object
-    inherit Ojs.obj
-    method type_        : string
-    [@@js.get "type"]
-    method value        : string
-    method pref         : bool
-  end
-
-class contact_field_phone : Ojs.t ->
-  object
-    inherit contact_field
-  end
-
-class contact_field_email : Ojs.t ->
-  object
-    inherit contact_field
-  end
-
-class contact_field_ims : Ojs.t ->
-  object
-    inherit contact_field
-  end
-
-class contact_field_photo : Ojs.t ->
-  object
-    inherit contact_field
-  end
-
-class contact_field_category : Ojs.t ->
-  object
-    inherit contact_field
-  end
-
-class contact_field_url : Ojs.t ->
-  object
-    inherit contact_field
-  end
+type contact_field = private Ojs.t
+val field_type   : contact_field -> string
+[@@js.get "type"]
+val field_value        : contact_field -> string
+val field_pref         : contact_field -> bool
 (* -------------------------------------------------------------------------- *)
 
 (* -------------------------------------------------------------------------- *)
@@ -113,66 +79,58 @@ class contact_name : Ojs.t ->
 class contact_address : Ojs.t ->
   object
     inherit Ojs.obj
-    (* Set to true if this ContactAddress contains the user's preferred
-     * value. *)
     method pref              : bool
-    (* A string indicating what type of field this is, home for example. *)
     method type_              : string option
     [@@js.get "type"]
-    (* The full address formatted for display. *)
     method formatted         : string option
-    (* The full street address. *)
     method street_address    : string option
-    (* The city or locality. *)
     method locality          : string option
-    (* The state or region. *)
     method region            : string option
-    (* The zip code or postal code. *)
     method postal_code       : string option
-    (* The country name. *)
     method country           : string option
   end
 
 val create_contact_address :
+  (* Set to true if this ContactAddress contains the user's preferred
+   * value. *)
   ?pref:bool                    ->
-  ?type_:string option          ->
-  ?formatted:string option      ->
-  ?street_address:string option ->
-  ?locality:string option       ->
-  ?region:string option         ->
-  ?postal_code:string option    ->
-  ?country:string option        ->
+  (* A string indicating what type of field this is, home for example. *)
+  ?type_:(string [@js "type"])  ->
+  (* The full address formatted for display. *)
+  ?formatted:string             ->
+  (* The full street address. *)
+  ?street_address:string        ->
+  (* The city or locality. *)
+  ?locality:string              ->
+  (* The state or region. *)
+  ?region:string                ->
+  (* The zip code or postal code. *)
+  ?postal_code:string           ->
+  (* The country name. *)
+  ?country:string               ->
   unit                          ->
   contact_address
   [@@js.builder]
 (* -------------------------------------------------------------------------- *)
 
 (* -------------------------------------------------------------------------- *)
-class contact_organization : Ojs.t ->
-  object
-    inherit Ojs.obj
-    (* Set to true if this ContactOrganization contains the user's preferred
-     * value. *)
-    method pref              : bool
-    (* A string that indicates what type of field this is, home for example. *)
-    method type_             : string option
-    (* The name of the organization. *)
-    method name              : string option
-    (* The department the contract works for. *)
-    method department        : string option
-    (* The contact's title at the organization. *)
-    method title             : string option
-  end
+type contact_organization = private Ojs.t
 
 val create_contact_organization :
+  (* Set to true if this ContactOrganization contains the user's preferred
+   * value. *)
   ?pref:bool                    ->
+  (* A string that indicates what type of field this is, home for example. *)
   ?type_:string option          ->
+  (* The name of the organization. *)
   ?name:string option           ->
+  (* The department the contract works for. *)
   ?department:string option     ->
+  (* The contact's title at the organization. *)
   ?title:string option          ->
   unit                          ->
   contact_organization
-  [@@js.builder]
+[@@js.builder]
 
 (* -------------------------------------------------------------------------- *)
 
@@ -189,13 +147,13 @@ class contact : Ojs.t ->
     (* A casual name by which to address the contact. *)
     method nick_name               : string option
     (* An array of all the contact's phone numbers. *)
-    method phone_numbers           : contact_field_phone array option
+    method phone_numbers           : contact_field array option
     (* An array of all the contact's email addresses. *)
-    method emails                  : contact_field_email array option
+    method emails                  : contact_field array option
     (* An array of all the contact's addresses. *)
-    method addresses                : contact_address array option
+    method addresses               : contact_address array option
     (* An array of all the contact's IM addresses. *)
-    method ims                     : contact_field_ims array option
+    method ims                     : contact_field array option
     (* An array of all the contact's organizations. *)
     method organizations           : contact_organization array option
     (* The birthday of the contact. *)
@@ -205,12 +163,12 @@ class contact : Ojs.t ->
     (*  A note about the contact. *)
     method note                    : string option
     (* An array of the contact's photos. *)
-    method photos                  : contact_field_photo array option
+    method photos                  : contact_field array option
     (* An array of all the user-defined categories associated with the contact.
      * *)
-    method categories              : contact_field_category array option
+    method categories              : contact_field array option
     (* An array of web pages associated with the contact. *)
-    method urls                    : contact_field_url array option
+    method urls                    : contact_field array option
 
     (* Returns a new Contact object that is a deep copy of the calling object,
      * with the id property set to null.
@@ -237,16 +195,16 @@ val create_contact :
   ?display_name:string option                       ->
   ?name:contact_name option                         ->
   ?nick_name:string option                          ->
-  ?phone_numbers:contact_field_phone array option   ->
-  ?emails:contact_field_email array option          ->
+  ?phone_numbers:contact_field array option   ->
+  ?emails:contact_field array option          ->
   ?addresses:contact_address array option           ->
-  ?ims:contact_field_ims array option               ->
+  ?ims:contact_field array option               ->
   ?organizations:contact_organization array option  ->
   ?birthday:Js_date.t option                     ->
   ?note:string option                               ->
-  ?photos:contact_field_photo array option          ->
-  ?categories:contact_field_category array option   ->
-  ?urls:contact_field_url array option              ->
+  ?photos:contact_field array option          ->
+  ?categories:contact_field array option   ->
+  ?urls:contact_field array option              ->
   unit                                              ->
   contact
   [@@js.builder]
