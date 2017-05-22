@@ -174,8 +174,9 @@ module Contact : sig
   (* A list of all the contact's organizations. *)
   val organizations : ContactOrganization.t list option
   (* The birthday of the contact. *)
-  (* Js_date is defined in the binding of the javascript standard library. See
-     * documentation *)
+  (* Js_date is defined in the binding of the javascript standard library.
+     * https://github.com/dannywillems/ocaml-js-stdlib
+     * See documentation *)
   val birthday      : Js_date.t option
   (*  A note about the contact. *)
   val note          : string option
